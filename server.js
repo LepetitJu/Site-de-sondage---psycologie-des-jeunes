@@ -5,9 +5,58 @@ const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// ========== CONFIGURATION AUTHENTIFICATION ==========
+// ⚠️ CHANGE CES IDENTIFIANTS !
+const ADMIN_USERNAME = process.env.ADMIN_USERNAME;
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
+// ====================================================
+
 // Middleware
 app.use(express.json());
-app.use(express.static('.')); // Servir les fichiers statiques
+
+// Middleware d'authentification HTTP Basic pour les routes admin
+function requireAuth(req, res, next) {
+    const authHeader = req.headers.authorization;
+    
+    if (!authHeader || !authHeader.startsWith('Basic ')) {
+        res.setHeader('WWW-Authenticate', 'Basic realm="Admin Area"');
+        return res.status(401).send('Authentification requise');
+    }
+    
+    // Décoder les identifiants
+    const base64Credentials = authHeader.split(' ')[1];
+    const credentials = Buffer.from(base64Credentials, 'base64').toString('ascii');
+    const [username, password] = credentials.split(':');
+    
+    // Vérifier les identifiants
+    if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
+        next();
+    } else {
+        res.setHeader('WWW-Authenticate', 'Basic realm="Admin Area"');
+        return res.status(401).send('Identifiants incorrects');
+    }
+}
+
+// Servir les fichiers statiques SAUF admin.html
+app.use(express.static('.', {
+    index: false,
+    setHeaders: (res, path) => {
+        // Bloquer l'accès direct à admin.html
+        if (path.endsWith('admin.html')) {
+            res.status(403).send('Accès interdit');
+        }
+    }
+}));
+
+// Route protégée pour admin.html
+app.get('/admin.html', requireAuth, (req, res) => {
+    res.sendFile(path.join(__dirname, 'admin.html'));
+});
+
+// Route protégée pour /admin
+app.get('/admin', requireAuth, (req, res) => {
+    res.sendFile(path.join(__dirname, 'admin.html'));
+});
 
 // Fichier pour stocker les réponses
 const DATA_FILE = 'responses.json';
@@ -17,7 +66,12 @@ if (!fs.existsSync(DATA_FILE)) {
     fs.writeFileSync(DATA_FILE, JSON.stringify({ responses: [] }, null, 2));
 }
 
-// Route pour soumettre les réponses
+// Route pour la page d'accueil (formulaire)
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'index.html'));
+});
+
+// Route pour soumettre les réponses (PUBLIQUE)
 app.post('/api/submit', (req, res) => {
     try {
         const response = req.body;
@@ -53,8 +107,8 @@ app.post('/api/submit', (req, res) => {
     }
 });
 
-// Route pour récupérer toutes les réponses (optionnel - pour consultation)
-app.get('/api/responses', (req, res) => {
+// Route PROTÉGÉE pour récupérer toutes les réponses
+app.get('/api/responses', requireAuth, (req, res) => {
     try {
         const data = JSON.parse(fs.readFileSync(DATA_FILE, 'utf8'));
         res.json(data);
@@ -64,8 +118,8 @@ app.get('/api/responses', (req, res) => {
     }
 });
 
-// Route pour obtenir les statistiques (optionnel)
-app.get('/api/stats', (req, res) => {
+// Route PROTÉGÉE pour obtenir les statistiques
+app.get('/api/stats', requireAuth, (req, res) => {
     try {
         const data = JSON.parse(fs.readFileSync(DATA_FILE, 'utf8'));
         const responses = data.responses;
@@ -92,6 +146,8 @@ app.get('/api/stats', (req, res) => {
 
 // Démarrer le serveur
 app.listen(PORT, () => {
-    console.log(`🚀 Serveur démarré sur http://localhost:${PORT}`);
+    console.log(`🚀 Serveur démarré sur https://site-de-sondage-psycologie-des-jeunes.onrender.com/`);
     console.log(`📊 Les réponses sont sauvegardées dans ${DATA_FILE}`);
+    console.log(`🔒 Page admin protégée - Login: ${ADMIN_USERNAME}`);
+    console.log(`⚠️  ATTENTION: Change le mot de passe dans le code ou via variables d'environnement !`);
 });
