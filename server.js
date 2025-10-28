@@ -79,7 +79,7 @@ app.post('/api/submit', (req, res) => {
         const response = req.body;
         
         // Validation basique
-        if (!response.age || !response.genre || !response.bien_etre_mental) {
+        if (!response.age || !response.genre) {
             return res.status(400).json({ error: 'Champs obligatoires manquants' });
         }
         
