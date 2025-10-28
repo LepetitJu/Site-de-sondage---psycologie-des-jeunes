@@ -37,14 +37,17 @@ function requireAuth(req, res, next) {
     }
 }
 
-// Servir les fichiers statiques SAUF admin.html
-app.use((req, res, next) => {
-    if (req.path.endsWith('admin.html')) {
-        return res.status(403).send('Accès interdit');
-    }
-    next();
+// Route protégée pour admin.html
+app.get('/admin.html', requireAuth, (req, res) => {
+    res.sendFile(path.join(__dirname, 'admin.html'));
 });
 
+// Route protégée pour /admin
+app.get('/admin', requireAuth, (req, res) => {
+    res.sendFile(path.join(__dirname, 'admin.html'));
+});
+
+// Middleware pour servir les fichiers statiques (tout sauf admin.html est servi normalement)
 app.use(express.static('.', { index: false }));
 
 // Route protégée pour admin.html
