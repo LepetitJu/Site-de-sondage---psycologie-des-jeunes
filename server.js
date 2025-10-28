@@ -38,15 +38,14 @@ function requireAuth(req, res, next) {
 }
 
 // Servir les fichiers statiques SAUF admin.html
-app.use(express.static('.', {
-    index: false,
-    setHeaders: (res, path) => {
-        // Bloquer l'accès direct à admin.html
-        if (path.endsWith('admin.html')) {
-            res.status(403).send('Accès interdit');
-        }
+app.use((req, res, next) => {
+    if (req.path.endsWith('admin.html')) {
+        return res.status(403).send('Accès interdit');
     }
-}));
+    next();
+});
+
+app.use(express.static('.', { index: false }));
 
 // Route protégée pour admin.html
 app.get('/admin.html', requireAuth, (req, res) => {
