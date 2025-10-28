@@ -164,6 +164,7 @@
         <div class="header">
             <h1>Sondage sur la Psychologie des Jeunes</h1>
             <p>Vos réponses nous aideront à mieux comprendre le bien-être des jeunes</p>
+            <p>Ce sondage est anonyme. En le remplissant, vous autorisez l'utilisation des données envoyées.</p>
         </div>
         
         <div class="form-content">
@@ -258,6 +259,58 @@
                 </div>
                 
                 <div class="question">
+                    <div class="question-title">Comment décririez-vous votre relation avec vos parents ? <span class="required">*</span></div>
+                    <div class="radio-group">
+                        <div class="radio-option">
+                            <input type="radio" id="parents1" name="relation_parents" value="tres_bonne" required>
+                            <label for="parents1">Très bonne</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="parents2" name="relation_parents" value="bonne">
+                            <label for="parents2">Bonne</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="parents3" name="relation_parents" value="moyenne">
+                            <label for="parents3">Moyenne</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="parents4" name="relation_parents" value="difficile">
+                            <label for="parents4">Difficile</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="parents5" name="relation_parents" value="tres_difficile">
+                            <label for="parents5">Très difficile</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="question">
+                    <div class="question-title">Arrivez-vous à discuter facilement avec vos parents de vos préoccupations ? <span class="required">*</span></div>
+                    <div class="radio-group">
+                        <div class="radio-option">
+                            <input type="radio" id="communication1" name="communication_parents" value="oui_facilement" required>
+                            <label for="communication1">Oui, facilement</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="communication2" name="communication_parents" value="parfois">
+                            <label for="communication2">Parfois</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="communication3" name="communication_parents" value="rarement">
+                            <label for="communication3">Rarement</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="communication4" name="communication_parents" value="jamais">
+                            <label for="communication4">Jamais</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="communication5" name="communication_parents" value="pas_de_parents">
+                            <label for="communication5">Je n'ai pas de parents/tuteurs</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="question">
                     <div class="question-title">Avez-vous déjà consulté un professionnel de la santé mentale ?</div>
                     <div class="radio-group">
                         <div class="radio-option">
@@ -277,14 +330,16 @@
                 
                 <div class="question">
                     <div class="question-title">Commentaires ou observations supplémentaires</div>
-                    <textarea name="commentaires" placeholder="Partagez vos pensées..."></textarea>
+                    <p style="font-size: 13px; color: #666; margin-top: 4px;">
+                        ⚠️ Merci de rester général dans vos commentaires. N'incluez pas de détails personnels ou d'événements spécifiques.
+                    </p>
+                    <textarea name="commentaires" placeholder="Partagez vos pensées de manière générale..."></textarea>
                 </div>
                 
                 <button type="submit" class="submit-btn" id="submitBtn">Envoyer les réponses</button>
             </form>
         </div>
-    </div>
-    
+    </div>   
     <script>
         const form = document.getElementById('surveyForm');
         const messageDiv = document.getElementById('message');
