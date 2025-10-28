@@ -171,430 +171,165 @@
             <div id="message" class="message"></div>
             
             <form id="surveyForm">
-                <div class="question">
-                    <div class="question-title">Âge <span class="required">*</span></div>
-                    <input type="number" name="age" min="10" max="100" required>
-                </div>
-                
-                <div class="question">
-                    <div class="question-title">Genre <span class="required">*</span></div>
-                    <select name="genre" required>
-                        <option value="">Sélectionnez...</option>
-                        <option value="homme">Homme</option>
-                        <option value="femme">Femme</option>
-                        <option value="non-binaire">Non-binaire</option>
-                        <option value="autre">Autre</option>
-                        <option value="prefere_ne_pas_repondre">Préfère ne pas répondre</option>
-                    </select>
-                </div>
-                
-                <div class="question">
-                    <div class="question-title">Comment évaluez-vous votre bien-être mental actuel ? <span class="required">*</span></div>
-                    <div class="radio-group">
-                        <div class="radio-option">
-                            <input type="radio" id="mental1" name="bien_etre_mental" value="tres_mauvais" required>
-                            <label for="mental1">Très mauvais</label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="mental2" name="bien_etre_mental" value="mauvais">
-                            <label for="mental2">Mauvais</label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="mental3" name="bien_etre_mental" value="moyen">
-                            <label for="mental3">Moyen</label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="mental4" name="bien_etre_mental" value="bon">
-                            <label for="mental4">Bon</label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="mental5" name="bien_etre_mental" value="tres_bon">
-                            <label for="mental5">Très bon</label>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="question">
-                    <div class="question-title">Niveau de stress quotidien (1-10) <span class="required">*</span></div>
-                    <input type="number" name="stress" min="1" max="10" required>
-                </div>
-                
-                <div class="question">
-                    <div class="question-title">Quelles sont vos principales sources de stress ? (plusieurs réponses possibles)</div>
-                    <div class="checkbox-group">
-                        <div class="checkbox-option">
-                            <input type="checkbox" id="stress1" name="sources_stress" value="etudes">
-                            <label for="stress1">Études/Travail scolaire</label>
-                        </div>
-                        <div class="checkbox-option">
-                            <input type="checkbox" id="stress2" name="sources_stress" value="famille">
-                            <label for="stress2">Famille</label>
-                        </div>
-                        <div class="checkbox-option">
-                            <input type="checkbox" id="stress3" name="sources_stress" value="amis">
-                            <label for="stress3">Relations amicales</label>
-                        </div>
-                        <div class="checkbox-option">
-                            <input type="checkbox" id="stress4" name="sources_stress" value="reseaux_sociaux">
-                            <label for="stress4">Réseaux sociaux</label>
-                        </div>
-                        <div class="checkbox-option">
-                            <input type="checkbox" id="stress5" name="sources_stress" value="avenir">
-                            <label for="stress5">Avenir/Orientation</label>
-                        </div>
-                        <div class="checkbox-option">
-                            <input type="checkbox" id="stress6" name="sources_stress" value="sante">
-                            <label for="stress6">Santé</label>
-                        </div>
-                        <div class="checkbox-option">
-                            <input type="checkbox" id="stress7" name="sources_stress" value="autre">
-                            <label for="stress7">Autre</label>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="question">
-                    <div class="question-title">Heures de sommeil par nuit (en moyenne) <span class="required">*</span></div>
-                    <input type="number" name="sommeil" min="0" max="24" step="0.5" required>
-                </div>
-                
-                <div class="question">
-                    <div class="question-title">Comment décririez-vous votre relation avec vos parents ? <span class="required">*</span></div>
-                    <div class="radio-group">
-                        <div class="radio-option">
-                            <input type="radio" id="parents1" name="relation_parents" value="tres_bonne" required>
-                            <label for="parents1">Très bonne</label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="parents2" name="relation_parents" value="bonne">
-                            <label for="parents2">Bonne</label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="parents3" name="relation_parents" value="moyenne">
-                            <label for="parents3">Moyenne</label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="parents4" name="relation_parents" value="difficile">
-                            <label for="parents4">Difficile</label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="parents5" name="relation_parents" value="tres_difficile">
-                            <label for="parents5">Très difficile</label>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="question">
-                    <div class="question-title">Comment décririez-vous votre relation avec vos amis ? <span class="required">*</span></div>
-                    <div class="radio-group">
-                        <div class="radio-option">
-                            <input type="radio" id="parents1" name="relation_parents" value="tres_bonne" required>
-                            <label for="parents1">Très bonne</label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="parents2" name="relation_parents" value="bonne">
-                            <label for="parents2">Bonne</label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="parents3" name="relation_parents" value="moyenne">
-                            <label for="parents3">Moyenne</label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="parents4" name="relation_parents" value="difficile">
-                            <label for="parents4">Difficile</label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="parents5" name="relation_parents" value="tres_difficile">
-                            <label for="parents5">Très difficile</label>
-                        </div>
-                    </div>
-                </div>
+    <div class="question">
+        <div class="question-title">Âge <span class="required">*</span></div>
+        <input type="number" name="age" min="10" max="100" required>
+    </div>
 
-                <div class="question">
-                    <div class="question-title">Es-tu souvent triste ? <span class="required">*</span></div>
-                    <div class="radio-group">
-                        <div class="radio-option">
-                            <input type="radio" id="parents1" name="relation_parents" value="tres_bonne" required>
-                            <label for="parents1">Oui</label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="parents2" name="relation_parents" value="bonne">
-                            <label for="parents2">Non</label>
-                        </div>
-                    </div>
-                </div>
+    <div class="question">
+        <div class="question-title">Genre <span class="required">*</span></div>
+        <select name="genre" required>
+            <option value="">Sélectionnez...</option>
+            <option value="homme">Homme</option>
+            <option value="femme">Femme</option>
+            <option value="non-binaire">Non-binaire</option>
+            <option value="autre">Autre</option>
+            <option value="prefere_ne_pas_repondre">Préfère ne pas répondre</option>
+        </select>
+    </div>
 
-                <div class="question">
-                    <div class="question-title">As-tu déjà ressenti de l’anxiété intense ? <span class="required">*</span></div>
-                    <div class="radio-group">
-                        <div class="radio-option">
-                            <input type="radio" id="parents1" name="relation_parents" value="tres_bonne" required>
-                            <label for="parents1">Oui</label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="parents2" name="relation_parents" value="bonne">
-                            <label for="parents2">Non</label>
-                        </div>
-                    </div>
-                </div>
+    <div class="question">
+        <div class="question-title">Comment te sens-tu la plupart du temps ? <span class="required">*</span></div>
+        <div class="radio-group">
+            <div class="radio-option"><input type="radio" name="etat_mental" value="triste" required><label>Triste</label></div>
+            <div class="radio-option"><input type="radio" name="etat_mental" value="anxieux"><label>Anxieux(se)</label></div>
+            <div class="radio-option"><input type="radio" name="etat_mental" value="neutre"><label>Neutre</label></div>
+            <div class="radio-option"><input type="radio" name="etat_mental" value="heureux"><label>Heureux(se)</label></div>
+        </div>
+    </div>
 
-                <div class="question">
-                    <div class="question-title">T’es-tu déjà senti(e) seul(e) même entouré(e) de gens ?<span class="required">*</span></div>
-                    <div class="radio-group">
-                        <div class="radio-option">
-                            <input type="radio" id="parents1" name="relation_parents" value="tres_bonne" required>
-                            <label for="parents1">Oui</label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="parents2" name="relation_parents" value="bonne">
-                            <label for="parents2">Non</label>
-                        </div>
-                    </div>
-                </div>
+    <div class="question">
+        <div class="question-title">Te sens-tu compris(e) par tes parents ou proches ? <span class="required">*</span></div>
+        <div class="radio-group">
+            <div class="radio-option"><input type="radio" name="comprehension_famille" value="oui_facilement" required><label>Oui, facilement</label></div>
+            <div class="radio-option"><input type="radio" name="comprehension_famille" value="parfois"><label>Parfois</label></div>
+            <div class="radio-option"><input type="radio" name="comprehension_famille" value="rarement"><label>Rarement</label></div>
+            <div class="radio-option"><input type="radio" name="comprehension_famille" value="jamais"><label>Jamais</label></div>
+            <div class="radio-option"><input type="radio" name="comprehension_famille" value="pas_de_parents"><label>Je n'ai pas de parents/tuteurs</label></div>
+        </div>
+    </div>
 
-                <div class="question">
-                    <div class="question-title">T’es-tu déjà mutilé(e) ou as-tu eu des pensées de te faire du mal ?<span class="required">*</span></div>
-                    <div class="radio-group">
-                        <div class="radio-option">
-                            <input type="radio" id="parents1" name="relation_parents" value="tres_bonne" required>
-                            <label for="parents1">Oui</label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="parents2" name="relation_parents" value="bonne">
-                            <label for="parents2">Non</label>
-                        </div>
-                    </div>
-                </div>
+    <div class="question">
+        <div class="question-title">T’es-tu déjà senti(e) seul(e) même entouré(e) de gens ? <span class="required">*</span></div>
+        <div class="radio-group">
+            <div class="radio-option"><input type="radio" name="isolement" value="souvent" required><label>Souvent</label></div>
+            <div class="radio-option"><input type="radio" name="isolement" value="parfois"><label>Parfois</label></div>
+            <div class="radio-option"><input type="radio" name="isolement" value="rarement"><label>Rarement</label></div>
+            <div class="radio-option"><input type="radio" name="isolement" value="jamais"><label>Jamais</label></div>
+        </div>
+    </div>
 
-                <div class="question">
-                    <div class="question-title">As-tu déjà eu des problèmes de sommeil (difficulté à dormir ou cauchemars) ?</div>
-                    <textarea name="commentaires" placeholder="Oui ? Non ? Peux-tu préciser le thème ou la raison ?"></textarea>
-                </div>
+    <div class="question">
+        <div class="question-title">As-tu déjà ressenti de l’anxiété intense ? <span class="required">*</span></div>
+        <div class="radio-group">
+            <div class="radio-option"><input type="radio" name="anxiete" value="souvent" required><label>Souvent</label></div>
+            <div class="radio-option"><input type="radio" name="anxiete" value="parfois"><label>Parfois</label></div>
+            <div class="radio-option"><input type="radio" name="anxiete" value="rarement"><label>Rarement</label></div>
+            <div class="radio-option"><input type="radio" name="anxiete" value="jamais"><label>Jamais</label></div>
+        </div>
+    </div>
 
-                <div class="question">
-                    <div class="question-title">Te sens-tu motivé(e) pour aller à l’école ou faire tes activités quotidiennes ?<span class="required">*</span></div>
-                    <div class="radio-group">
-                        <div class="radio-option">
-                            <input type="radio" id="parents1" name="relation_parents" value="tres_bonne" required>
-                            <label for="parents1">Oui</label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="parents2" name="relation_parents" value="bonne">
-                            <label for="parents2">Non</label>
-                        </div>
-                    </div>
-                </div>
+    <div class="question">
+        <div class="question-title">T’es-tu déjà mutilé(e) ou as-tu eu des pensées de te faire du mal ? <span class="required">*</span></div>
+        <div class="radio-group">
+            <div class="radio-option"><input type="radio" name="auto_mal" value="oui" required><label>Oui</label></div>
+            <div class="radio-option"><input type="radio" name="auto_mal" value="non"><label>Non</label></div>
+        </div>
+    </div>
 
-                <div class="question">
-                    <div class="question-title">As-tu déjà été victime ou témoin de harcèlement à l’école ou en ligne ?<span class="required">*</span></div>
-                    <div class="radio-group">
-                        <div class="radio-option">
-                            <input type="radio" id="parents1" name="relation_parents" value="tres_bonne" required>
-                            <label for="parents1">Oui</label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="parents2" name="relation_parents" value="bonne">
-                            <label for="parents2">Non</label>
-                        </div>
-                    </div>
-                </div>
+    <div class="question">
+        <div class="question-title">As-tu déjà eu des crises de panique ou de forte anxiété ? <span class="required">*</span></div>
+        <div class="radio-group">
+            <div class="radio-option"><input type="radio" name="crises_panique" value="souvent" required><label>Souvent</label></div>
+            <div class="radio-option"><input type="radio" name="crises_panique" value="rarement"><label>Rarement</label></div>
+            <div class="radio-option"><input type="radio" name="crises_panique" value="jamais"><label>Jamais</label></div>
+        </div>
+    </div>
 
-                <div class="question">
-                    <div class="question-title">Passes-tu beaucoup de temps sur les réseaux sociaux chaque jour ?<span class="required">*</span></div>
-                    <div class="radio-group">
-                        <div class="radio-option">
-                            <input type="radio" id="parents1" name="relation_parents" value="tres_bonne" required>
-                            <label for="parents1">Beaucoup</label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="parents2" name="relation_parents" value="bonne">
-                            <label for="parents2">Pas mal</label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="parents3" name="relation_parents" value="bonne">
-                            <label for="parents3">Juste un peu</label>
-                        </div>
-                    </div>
-                </div>
+    <div class="question">
+        <div class="question-title">Comment décrirais-tu ta relation avec tes amis ? <span class="required">*</span></div>
+        <div class="radio-group">
+            <div class="radio-option"><input type="radio" name="relation_amis" value="tres_bonne" required><label>Très bonne</label></div>
+            <div class="radio-option"><input type="radio" name="relation_amis" value="bonne"><label>Bonne</label></div>
+            <div class="radio-option"><input type="radio" name="relation_amis" value="moyenne"><label>Moyenne</label></div>
+            <div class="radio-option"><input type="radio" name="relation_amis" value="difficile"><label>Difficile</label></div>
+            <div class="radio-option"><input type="radio" name="relation_amis" value="tres_difficile"><label>Très difficile</label></div>
+        </div>
+    </div>
 
-                <div class="question">
-                    <div class="question-title">Te compares-tu souvent aux autres ?<span class="required">*</span></div>
-                    <div class="radio-group">
-                        <div class="radio-option">
-                            <input type="radio" id="parents1" name="relation_parents" value="tres_bonne" required>
-                            <label for="parents1">Beaucoup</label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="parents2" name="relation_parents" value="bonne">
-                            <label for="parents2">Pas mal</label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="parents3" name="relation_parents" value="bonne">
-                            <label for="parents3">Juste un peu</label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="parents3" name="relation_parents" value="bonne">
-                            <label for="parents3">Pas du tout</label>
-                        </div>
-                    </div>
-                </div>
+    <div class="question">
+        <div class="question-title">Te compares-tu souvent aux autres ? <span class="required">*</span></div>
+        <div class="radio-group">
+            <div class="radio-option"><input type="radio" name="comparaison" value="beaucoup" required><label>Beaucoup</label></div>
+            <div class="radio-option"><input type="radio" name="comparaison" value="parfois"><label>Parfois</label></div>
+            <div class="radio-option"><input type="radio" name="comparaison" value="rarement"><label>Rarement</label></div>
+            <div class="radio-option"><input type="radio" name="comparaison" value="jamais"><label>Jamais</label></div>
+        </div>
+    </div>
 
-                <div class="question">
-                    <div class="question-title">T’inquiètes-tu pour l’avenir ?<span class="required">*</span></div>
-                    <div class="radio-group">
-                        <div class="radio-option">
-                            <input type="radio" id="parents1" name="relation_parents" value="tres_bonne" required>
-                            <label for="parents1">Beaucoup</label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="parents2" name="relation_parents" value="bonne">
-                            <label for="parents2">Pas mal</label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="parents3" name="relation_parents" value="bonne">
-                            <label for="parents3">Juste un peu</label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="parents3" name="relation_parents" value="bonne">
-                            <label for="parents3">Pas du tout</label>
-                        </div>
-                    </div>
-                </div>
+    <div class="question">
+        <div class="question-title">T’inquiètes-tu pour l’avenir ? <span class="required">*</span></div>
+        <div class="radio-group">
+            <div class="radio-option"><input type="radio" name="inquietude_avenir" value="beaucoup" required><label>Beaucoup</label></div>
+            <div class="radio-option"><input type="radio" name="inquietude_avenir" value="parfois"><label>Parfois</label></div>
+            <div class="radio-option"><input type="radio" name="inquietude_avenir" value="rarement"><label>Rarement</label></div>
+            <div class="radio-option"><input type="radio" name="inquietude_avenir" value="jamais"><label>Jamais</label></div>
+        </div>
+    </div>
 
-                <div class="question">
-                    <div class="question-title">As-tu déjà eu des crises de panique ou de forte anxiété ?<span class="required">*</span></div>
-                    <div class="radio-group">
-                        <div class="radio-option">
-                            <input type="radio" id="parents1" name="relation_parents" value="tres_bonne" required>
-                            <label for="parents1">Courament</label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="parents2" name="relation_parents" value="bonne">
-                            <label for="parents2">A faible fréquence</label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="parents3" name="relation_parents" value="bonne">
-                            <label for="parents3">Juste une fois</label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="parents3" name="relation_parents" value="bonne">
-                            <label for="parents3">Jamais</label>
-                        </div>
-                    </div>
-                </div>
+    <div class="question">
+        <div class="question-title">As-tu déjà été victime ou témoin de harcèlement ? <span class="required">*</span></div>
+        <div class="radio-group">
+            <div class="radio-option"><input type="radio" name="harcelement" value="oui" required><label>Oui</label></div>
+            <div class="radio-option"><input type="radio" name="harcelement" value="non"><label>Non</label></div>
+        </div>
+    </div>
 
-                <div class="question">
-                    <div class="question-title">As-tu des pensées suicidaires ou de vouloir disparaître ?<span class="required">*</span></div>
-                    <div class="radio-group">
-                        <div class="radio-option">
-                            <input type="radio" id="parents1" name="relation_parents" value="tres_bonne" required>
-                            <label for="parents1">Courament</label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="parents2" name="relation_parents" value="bonne">
-                            <label for="parents2">A faible fréquence</label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="parents3" name="relation_parents" value="bonne">
-                            <label for="parents3">Juste une fois</label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="parents3" name="relation_parents" value="bonne">
-                            <label for="parents3">Jamais</label>
-                        </div>
-                    </div>
-                </div>
+    <div class="question">
+        <div class="question-title">Passes-tu beaucoup de temps sur les réseaux sociaux chaque jour ? <span class="required">*</span></div>
+        <div class="radio-group">
+            <div class="radio-option"><input type="radio" name="temps_reseaux" value="beaucoup" required><label>Beaucoup</label></div>
+            <div class="radio-option"><input type="radio" name="temps_reseaux" value="modere"><label>Modérément</label></div>
+            <div class="radio-option"><input type="radio" name="temps_reseaux" value="peu"><label>Peu</label></div>
+        </div>
+    </div>
 
-                <div class="question">
-                    <div class="question-title">Est-ce que tu te sens à l’aise avec ton corps et ton apparence ?<span class="required">*</span></div>
-                    <div class="radio-group">
-                        <div class="radio-option">
-                            <input type="radio" id="parents1" name="relation_parents" value="tres_bonne" required>
-                            <label for="parents1">Oui</label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="parents2" name="relation_parents" value="bonne">
-                            <label for="parents2">Pas tellement</label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="parents3" name="relation_parents" value="bonne">
-                            <label for="parents3">Pas du tout</label>
-                        </div>
-                    </div>
-                </div>
+    <div class="question">
+        <div class="question-title">Comment te sens-tu dans ton corps et ton apparence ? <span class="required">*</span></div>
+        <div class="radio-group">
+            <div class="radio-option"><input type="radio" name="image_corps" value="bien" required><label>Bien</label></div>
+            <div class="radio-option"><input type="radio" name="image_corps" value="assez_bien"><label>Assez bien</label></div>
+            <div class="radio-option"><input type="radio" name="image_corps" value="mal"><label>Mal</label></div>
+            <div class="radio-option"><input type="radio" name="image_corps" value="tres_mal"><label>Très mal</label></div>
+        </div>
+    </div>
 
-                <div class="question">
-                    <div class="question-title">Te sens-tu accepté(e) par ton entourage pour ce que tu es ?<span class="required">*</span></div>
-                    <div class="radio-group">
-                        <div class="radio-option">
-                            <input type="radio" id="parents1" name="relation_parents" value="tres_bonne" required>
-                            <label for="parents1">Oui</label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="parents2" name="relation_parents" value="bonne">
-                            <label for="parents2">Pas tellement</label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="parents3" name="relation_parents" value="bonne">
-                            <label for="parents3">Pas du tout</label>
-                        </div>
-                    </div>
-                </div>
+    <div class="question">
+        <div class="question-title">As-tu déjà consulté un professionnel de la santé mentale ?</div>
+        <div class="radio-group">
+            <div class="radio-option"><input type="radio" name="consultation_psy" value="oui"><label>Oui</label></div>
+            <div class="radio-option"><input type="radio" name="consultation_psy" value="non"><label>Non</label></div>
+            <div class="radio-option"><input type="radio" name="consultation_psy" value="envisage"><label>Non, mais j'y pense</label></div>
+        </div>
+    </div>
 
-                <div class="question">
-                    <div class="question-title">Arrivez-vous à discuter facilement avec vos parents de vos préoccupations ? <span class="required">*</span></div>
-                    <div class="radio-group">
-                        <div class="radio-option">
-                            <input type="radio" id="communication1" name="communication_parents" value="oui_facilement" required>
-                            <label for="communication1">Oui, facilement</label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="communication2" name="communication_parents" value="parfois">
-                            <label for="communication2">Parfois</label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="communication3" name="communication_parents" value="rarement">
-                            <label for="communication3">Rarement</label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="communication4" name="communication_parents" value="jamais">
-                            <label for="communication4">Jamais</label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="communication5" name="communication_parents" value="pas_de_parents">
-                            <label for="communication5">Je n'ai pas de parents/tuteurs</label>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="question">
-                    <div class="question-title">Avez-vous déjà consulté un professionnel de la santé mentale ?</div>
-                    <div class="radio-group">
-                        <div class="radio-option">
-                            <input type="radio" id="psy1" name="consultation_psy" value="oui">
-                            <label for="psy1">Oui</label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="psy2" name="consultation_psy" value="non">
-                            <label for="psy2">Non</label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="psy3" name="consultation_psy" value="envisage">
-                            <label for="psy3">Non, mais j'y pense</label>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="question">
-                    <div class="question-title">Commentaires ou observations supplémentaires</div>
-                    <p style="font-size: 13px; color: #666; margin-top: 4px;">
-                        ⚠️ Merci de rester général dans vos commentaires. N'incluez pas de détails personnels ou d'événements spécifiques.
-                    </p>
-                    <textarea name="commentaires" placeholder="Partagez vos pensées de manière générale..."></textarea>
-                </div>
-                
-                <button type="submit" class="submit-btn" id="submitBtn">Envoyer les réponses</button>
-            </form>
+    <div class="question">
+        <div class="question-title">Raconte une journée où tu t’es senti(e) vraiment mal</div>
+        <textarea name="journée_difficile" placeholder="Décris ton ressenti de manière générale..."></textarea>
+    </div>
+
+    <div class="question">
+        <div class="question-title">Quelles situations te rendent le plus mal à l’aise ou stressé(e) ?</div>
+        <textarea name="situations_stress" placeholder="École, amis, famille, réseaux sociaux, etc."></textarea>
+    </div>
+
+    <div class="question">
+        <div class="question-title">Commentaires ou observations supplémentaires</div>
+        <textarea name="commentaires" placeholder="Partage tes pensées de manière générale..."></textarea>
+    </div>
+
+    <button type="submit" class="submit-btn" id="submitBtn">Envoyer les réponses</button>
+</form>
         </div>
     </div>   
     <script>
