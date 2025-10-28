@@ -260,14 +260,6 @@
                 <div class="stat-value" id="etat_mental">-</div>
                 <div class="stat-label">Etat mental</div>
             </div>
-            <div class="stat-card">
-                <div class="stat-value" id="comprehension_famille">-</div>
-                <div class="stat-label">Compréhension familiale</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-value" id="isolement">-</div>
-                <div class="stat-label">Isolement</div>
-            </div>
         </div>
         
         <div class="actions">
@@ -307,6 +299,7 @@
                 
                 document.getElementById('totalResponses').textContent = stats.total;
                 document.getElementById('avgAge').textContent = stats.age_moyen;
+                document.getElementById('etat_mental').textContent = stats.etat_mental;
                 
                 // Charger les réponses
                 const responsesRes = await fetch('/api/responses');
@@ -340,31 +333,86 @@
                     <div class="response-grid">
                         <div class="response-item">
                             <div class="response-label">Âge</div>
-                            <div class="response-value">${r.age} ans</div>
+                            <div class="response-value">${r.age ?? '-' } ans</div>
                         </div>
                         <div class="response-item">
                             <div class="response-label">Genre</div>
                             <div class="response-value">${formatGenre(r.genre)}</div>
                         </div>
                         <div class="response-item">
-                            <div class="response-label">Consultation psy</div>
+                            <div class="response-label">Comment te sens-tu la plupart du temps ?</div>
+                            <div class="response-value">${({ 'triste':'Triste','anxieux':'Anxieux(se)','neutre':'Neutre','heureux':'Heureux(se)' }[r.etat_mental] || r.etat_mental || '-')}</div>
+                        </div>
+                        <div class="response-item">
+                            <div class="response-label">Te sens-tu compris(e) par tes parents/proches ?</div>
+                            <div class="response-value">${({ 'oui_facilement':'Oui, facilement','parfois':'Parfois','rarement':'Rarement','jamais':'Jamais','pas_de_parents':"Je n'ai pas de parents/tuteurs" }[r.comprehension_famille] || r.comprehension_famille || '-')}</div>
+                        </div>
+                        <div class="response-item">
+                            <div class="response-label">T’es-tu déjà senti(e) seul(e) même entouré(e) ?</div>
+                            <div class="response-value">${({ 'souvent':'Souvent','parfois':'Parfois','rarement':'Rarement','jamais':'Jamais' }[r.isolement] || r.isolement || '-')}</div>
+                        </div>
+                        <div class="response-item">
+                            <div class="response-label">As-tu déjà ressenti de l’anxiété intense ?</div>
+                            <div class="response-value">${({ 'souvent':'Souvent','parfois':'Parfois','rarement':'Rarement','jamais':'Jamais' }[r.anxiete] || r.anxiete || '-')}</div>
+                        </div>
+                        <div class="response-item">
+                            <div class="response-label">T’es-tu déjà mutilé(e) / pensées de te faire du mal ?</div>
+                            <div class="response-value">${({ 'oui':'Oui','non':'Non' }[r.auto_mal] || r.auto_mal || '-')}</div>
+                        </div>
+                        <div class="response-item">
+                            <div class="response-label">Crises de panique / forte anxiété</div>
+                            <div class="response-value">${({ 'souvent':'Souvent','rarement':'Rarement','jamais':'Jamais' }[r.crises_panique] || r.crises_panique || '-')}</div>
+                        </div>
+                        <div class="response-item">
+                            <div class="response-label">Relation avec tes amis</div>
+                            <div class="response-value">${({ 'tres_bonne':'Très bonne','bonne':'Bonne','moyenne':'Moyenne','difficile':'Difficile','tres_difficile':'Très difficile' }[r.relation_amis] || r.relation_amis || '-')}</div>
+                        </div>
+                        <div class="response-item">
+                            <div class="response-label">Te compares-tu souvent aux autres ?</div>
+                            <div class="response-value">${({ 'beaucoup':'Beaucoup','parfois':'Parfois','rarement':'Rarement','jamais':'Jamais' }[r.comparaison] || r.comparaison || '-')}</div>
+                        </div>
+                        <div class="response-item">
+                            <div class="response-label">T’inquiètes-tu pour l’avenir ?</div>
+                            <div class="response-value">${({ 'beaucoup':'Beaucoup','parfois':'Parfois','rarement':'Rarement','jamais':'Jamais' }[r.inquietude_avenir] || r.inquietude_avenir || '-')}</div>
+                        </div>
+                        <div class="response-item">
+                            <div class="response-label">Victime ou témoin de harcèlement ?</div>
+                            <div class="response-value">${({ 'oui':'Oui','non':'Non' }[r.harcelement] || r.harcelement || '-')}</div>
+                        </div>
+                        <div class="response-item">
+                            <div class="response-label">Temps passé sur les réseaux sociaux</div>
+                            <div class="response-value">${({ 'beaucoup':'Beaucoup','modere':'Modérément','peu':'Peu' }[r.temps_reseaux] || r.temps_reseaux || '-')}</div>
+                        </div>
+                        <div class="response-item">
+                            <div class="response-label">Image de ton corps / apparence</div>
+                            <div class="response-value">${({ 'bien':'Bien','assez_bien':'Assez bien','mal':'Mal','tres_mal':'Très mal' }[r.image_corps] || r.image_corps || '-')}</div>
+                        </div>
+                        <div class="response-item">
+                            <div class="response-label">As-tu déjà consulté un professionnel (santé mentale) ?</div>
                             <div class="response-value">${formatConsultation(r.consultation_psy)}</div>
                         </div>
                     </div>
-                    ${r.sources_stress && r.sources_stress.length > 0 ? `
+
+                    ${ ( (r['journée_difficile'] || r.journee_difficile || r['journee_difficile']) ? `
                         <div class="response-item" style="margin-top: 12px;">
-                            <div class="response-label">Sources de stress</div>
-                            <div class="response-value">
-                                ${r.sources_stress.map(s => `<span class="badge badge-info">${formatSourceStress(s)}</span>`).join('')}
-                            </div>
+                            <div class="response-label">Raconte une journée où tu t’es senti(e) vraiment mal</div>
+                            <div class="response-value">${(r['journée_difficile'] || r.journee_difficile || r['journee_difficile'] || '').replace(/\n/g,'<br>')}</div>
                         </div>
-                    ` : ''}
-                    ${r.commentaires ? `
+                    ` : '')}
+
+                    ${ ( (r.situations_stress) ? `
+                        <div class="response-item" style="margin-top: 12px;">
+                            <div class="response-label">Quelles situations te rendent le plus mal à l’aise / stressé(e) ?</div>
+                            <div class="response-value">${(r.situations_stress || '').replace(/\n/g,'<br>')}</div>
+                        </div>
+                    ` : '')}
+
+                    ${ ( (r.commentaires) ? `
                         <div class="response-item" style="margin-top: 12px;">
                             <div class="response-label">Commentaires</div>
-                            <div class="response-value">${r.commentaires}</div>
+                            <div class="response-value">${(r.commentaires || '').replace(/\n/g,'<br>')}</div>
                         </div>
-                    ` : ''}
+                    ` : '')}
                 </div>
             `).join('');
         }
@@ -423,7 +471,7 @@
                 const sources = Array.isArray(r.sources_stress) ? r.sources_stress.join('; ') : '';
                 const commentaires = (r.commentaires || '').replace(/"/g, '""').replace(/\n/g, ' ');
                 
-                csv += `${r.id},"${formatDate(r.timestamp)}",${r.age},"${formatGenre(r.genre)}","${formatBienEtre(r.bien_etre_mental)}",${r.stress},${r.sommeil},"${formatConsultation(r.consultation_psy)}","${sources}","${commentaires}"\n`;
+                csv += `${r.id},"${formatDate(r.timestamp)}",${r.age},"${formatGenre(r.genre)}","${formatBienEtre(r.bien_etre_mental)}","${formatConsultation(r.consultation_psy)}","${sources}","${commentaires}"\n`;
             });
             
             // Télécharger
