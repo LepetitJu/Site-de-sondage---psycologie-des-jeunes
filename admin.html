@@ -1,183 +1,452 @@
-// helper pour récupérer un champ qui peut avoir plusieurs clés (ex: accent ou non)
-function getField(obj, ...keys) {
-    for (const k of keys) {
-    if (obj && obj[k] !== undefined && obj[k] !== null) return obj[k];
-    }
-    return '';
-}
-
-function displayResponses(responses) {
-    const container = document.getElementById('responsesContainer');
-
-    if (responses.length === 0) {
-    container.innerHTML = 
-        '<div class="empty"><div class="empty-icon">📭</div><p>Aucune réponse pour le moment</p></div>';
-    return;
-    }
-
-    container.innerHTML = responses.map(r => {
-    const journee = getField(r, 'journée_difficile', 'journee_difficile', 'journéeDifficile');
-    const situations = getField(r, 'situations_stress', 'situations_de_stress', 'situationsStress');
-    return `
-    <div class="response-card">
-        <div class="response-header">
-        <span class="response-id">Réponse #${r.id}</span>
-        <span class="response-date">${formatDate(r.timestamp)}</span>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Résultats du Sondage</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f1f3f4;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            background: white;
+            padding: 24px;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+            margin-bottom: 20px;
+        }
+        
+        .header h1 {
+            color: #673ab7;
+            margin-bottom: 8px;
+        }
+        
+        .header p {
+            color: #666;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 32px;
+            font-weight: bold;
+            color: #673ab7;
+            margin-bottom: 8px;
+        }
+        
+        .stat-label {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .actions {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+            margin-bottom: 20px;
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .btn-primary {
+            background: #673ab7;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #5e35b1;
+        }
+        
+        .btn-success {
+            background: #4caf50;
+            color: white;
+        }
+        
+        .btn-success:hover {
+            background: #45a049;
+        }
+        
+        .btn-danger {
+            background: #f44336;
+            color: white;
+        }
+        
+        .btn-danger:hover {
+            background: #da190b;
+        }
+        
+        .responses-container {
+            background: white;
+            padding: 24px;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+        }
+        
+        .responses-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 16px;
+            border-bottom: 2px solid #f1f3f4;
+        }
+        
+        .responses-header h2 {
+            color: #333;
+        }
+        
+        .filter-input {
+            padding: 8px 16px;
+            border: 1px solid #dadce0;
+            border-radius: 4px;
+            font-size: 14px;
+            width: 300px;
+        }
+        
+        .response-card {
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 16px;
+            transition: box-shadow 0.2s;
+        }
+        
+        .response-card:hover {
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .response-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #f1f3f4;
+        }
+        
+        .response-id {
+            font-weight: bold;
+            color: #673ab7;
+        }
+        
+        .response-date {
+            color: #666;
+            font-size: 13px;
+        }
+        
+        .response-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 12px;
+        }
+        
+        .response-item {
+            padding: 8px 0;
+        }
+        
+        .response-label {
+            font-weight: 600;
+            color: #555;
+            font-size: 13px;
+            margin-bottom: 4px;
+        }
+        
+        .response-value {
+            color: #333;
+            font-size: 14px;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+            margin-right: 4px;
+            margin-bottom: 4px;
+        }
+        
+        .badge-info {
+            background: #e3f2fd;
+            color: #1976d2;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+        
+        .empty {
+            text-align: center;
+            padding: 40px;
+            color: #999;
+        }
+        
+        .empty-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+        }
+        
+        @media (max-width: 768px) {
+            .filter-input {
+                width: 100%;
+            }
+            
+            .responses-header {
+                flex-direction: column;
+                gap: 12px;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎯 Tableau de Bord - Sondage Psychologie</h1>
+            <p>Gérez et analysez les réponses de votre sondage</p>
         </div>
-        <div class="response-grid">
-        <div class="response-item">
-            <div class="response-label">Âge</div>
-            <div class="response-value">${r.age ? r.age + ' ans' : '—'}</div>
-        </div>
-        <div class="response-item">
-            <div class="response-label">Genre</div>
-            <div class="response-value">${formatGenre(r.genre)}</div>
-        </div>
-        <div class="response-item">
-            <div class="response-label">État mental</div>
-            <div class="response-value">${formatEtatMental(r.etat_mental)}</div>
-        </div>
-        <div class="response-item">
-            <div class="response-label">Compréhension par la famille</div>
-            <div class="response-value">${formatComprehensionFamille(r.comprehension_famille)}</div>
-        </div>
-        <div class="response-item">
-            <div class="response-label">Isolement</div>
-            <div class="response-value">${formatIsolement(r.isolement)}</div>
-        </div>
-        <div class="response-item">
-            <div class="response-label">Anxiété intense</div>
-            <div class="response-value">${formatAnxiete(r.anxiete)}</div>
-        </div>
-        <div class="response-item">
-            <div class="response-label">Auto‑mutilation / pensées auto‑destructrices</div>
-            <div class="response-value">${formatOuiNon(r.auto_mal)}</div>
-        </div>
-        <div class="response-item">
-            <div class="response-label">Crises de panique</div>
-            <div class="response-value">${formatCrisesPanique(r.crises_panique)}</div>
-        </div>
-        <div class="response-item">
-            <div class="response-label">Relation avec les amis</div>
-            <div class="response-value">${formatRelationAmis(r.relation_amis)}</div>
-        </div>
-        <div class="response-item">
-            <div class="response-label">Comparaison aux autres</div>
-            <div class="response-value">${formatComparaison(r.comparaison)}</div>
-        </div>
-        <div class="response-item">
-            <div class="response-label">Inquiétude pour l'avenir</div>
-            <div class="response-value">${formatInquietudeAvenir(r.inquietude_avenir)}</div>
-        </div>
-        <div class="response-item">
-            <div class="response-label">Harcèlement (victime/témoin)</div>
-            <div class="response-value">${formatOuiNon(r.harcelement)}</div>
-        </div>
-        <div class="response-item">
-            <div class="response-label">Temps sur réseaux sociaux</div>
-            <div class="response-value">${formatTempsReseaux(r.temps_reseaux)}</div>
-        </div>
-        <div class="response-item">
-            <div class="response-label">Image du corps</div>
-            <div class="response-value">${formatImageCorps(r.image_corps)}</div>
-        </div>
-        <div class="response-item">
-            <div class="response-label">Consultation psy</div>
-            <div class="response-value">${formatConsultation(r.consultation_psy)}</div>
-        </div>
-        </div>
-
-        ${Array.isArray(r.sources_stress) && r.sources_stress.length > 0 ? `
-        <div class="response-item" style="margin-top: 12px;">
-            <div class="response-label">Sources de stress</div>
-            <div class="response-value">
-            ${r.sources_stress.map(s => `<span class="badge badge-info">${formatSourceStress(s)}</span>`).join('')}
+        
+        <div class="stats-grid" id="statsGrid">
+            <div class="stat-card">
+                <div class="stat-value" id="totalResponses">-</div>
+                <div class="stat-label">Réponses totales</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="avgAge">-</div>
+                <div class="stat-label">Âge moyen</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="avgStress">-</div>
+                <div class="stat-label">Stress moyen (/10)</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="avgSleep">-</div>
+                <div class="stat-label">Sommeil moyen (h)</div>
             </div>
         </div>
-        ` : ''}
-
-        ${journee ? `
-        <div class="response-item" style="margin-top: 12px;">
-            <div class="response-label">Journée difficile</div>
-            <div class="response-value">${escapeHtml(journee)}</div>
+        
+        <div class="actions">
+            <button class="btn btn-primary" onclick="refreshData()">🔄 Actualiser</button>
+            <button class="btn btn-success" onclick="exportCSV()">📥 Exporter en CSV</button>
+            <button class="btn btn-success" onclick="exportJSON()">📥 Exporter en JSON</button>
         </div>
-        ` : ''}
-
-        ${situations ? `
-        <div class="response-item" style="margin-top: 12px;">
-            <div class="response-label">Situations stressantes</div>
-            <div class="response-value">${escapeHtml(situations)}</div>
+        
+        <div class="responses-container">
+            <div class="responses-header">
+                <h2>Réponses détaillées</h2>
+                <input type="text" class="filter-input" id="searchInput" placeholder="🔍 Rechercher...">
+            </div>
+            
+            <div id="responsesContainer">
+                <div class="loading">Chargement des données...</div>
+            </div>
         </div>
-        ` : ''}
-
-        ${r.commentaires ? `
-        <div class="response-item" style="margin-top: 12px;">
-            <div class="response-label">Commentaires</div>
-            <div class="response-value">${escapeHtml(r.commentaires)}</div>
-        </div>
-        ` : ''}
     </div>
-    `;
-    }).join('');
-}
-
-// petits helpers pour sécuriser l'affichage (échapper < & > et guillemets)
-function escapeHtml(str) {
-    if (str === undefined || str === null) return '';
-    return String(str)
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#39;')
-    .replace(/\n/g, '<br>');
-}
-
-// formatters pour les nouvelles questions
-function formatEtatMental(v) {
-    const map = { 'triste':'Triste','anxieux':'Anxieux(se)','neutre':'Neutre','heureux':'Heureux(se)' };
-    return map[v] || v || 'Non renseigné';
-}
-function formatComprehensionFamille(v) {
-    const map = { 'oui_facilement':'Oui, facilement','parfois':'Parfois','rarement':'Rarement','jamais':'Jamais','pas_de_parents':"Je n'ai pas de parents/tuteurs" };
-    return map[v] || v || 'Non renseigné';
-}
-function formatIsolement(v) {
-    const map = { 'souvent':'Souvent','parfois':'Parfois','rarement':'Rarement','jamais':'Jamais' };
-    return map[v] || v || 'Non renseigné';
-}
-function formatAnxiete(v) { return formatIsolement(v); }
-function formatOuiNon(v) { const map = { 'oui':'Oui','non':'Non' }; return map[v] || v || 'Non renseigné'; }
-function formatCrisesPanique(v) { const map = { 'souvent':'Souvent','rarement':'Rarement','jamais':'Jamais' }; return map[v] || v || 'Non renseigné'; }
-function formatRelationAmis(v) {
-    const map = { 'tres_bonne':'Très bonne','bonne':'Bonne','moyenne':'Moyenne','difficile':'Difficile','tres_difficile':'Très difficile' };
-    return map[v] || v || 'Non renseigné';
-}
-function formatComparaison(v) { const map = { 'beaucoup':'Beaucoup','parfois':'Parfois','rarement':'Rarement','jamais':'Jamais' }; return map[v] || v || 'Non renseigné'; }
-function formatInquietudeAvenir(v) { return formatComparaison(v); }
-function formatHarcelement(v) { return formatOuiNon(v); }
-function formatTempsReseaux(v) { const map = { 'beaucoup':'Beaucoup','modere':'Modérément','peu':'Peu' }; return map[v] || v || 'Non renseigné'; }
-function formatImageCorps(v) { const map = { 'bien':'Bien','assez_bien':'Assez bien','mal':'Mal','tres_mal':'Très mal' }; return map[v] || v || 'Non renseigné'; }
-
-// Mettre à jour exportCSV pour inclure les nouveaux champs
-function exportCSV() {
-    if (allResponses.length === 0) {
-    alert('Aucune donnée à exporter');
-    return;
-    }
-
-    // En-têtes (ajout des nouvelles colonnes)
-    let csv = 'ID,Date,Âge,Genre,État mental,Compréhension famille,Isolement,Anxiété,Auto-mutilation,Crises panique,Relation amis,Comparaison,Inquiétude avenir,Harcèlement,Temps réseaux,Image corps,Bien-être mental,Stress,Sommeil,Consultation psy,Sources de stress,Journée difficile,Situations stress,Commentaires\n';
-
-    // Données
-    allResponses.forEach(r => {
-    const sources = Array.isArray(r.sources_stress) ? r.sources_stress.join('; ') : '';
-    const commentaires = (r.commentaires || '').replace(/"/g, '""').replace(/\n/g, ' ');
-    const journee = (getField(r, 'journée_difficile', 'journee_difficile') || '').replace(/"/g, '""').replace(/\n/g, ' ');
-    const situations = (getField(r, 'situations_stress', 'situationsStress') || '').replace(/"/g, '""').replace(/\n/g, ' ');
-
-    csv += `${r.id},"${formatDate(r.timestamp)}",${r.age || ''},"${formatGenre(r.genre)}","${formatEtatMental(r.etat_mental)}","${formatComprehensionFamille(r.comprehension_famille)}","${formatIsolement(r.isolement)}","${formatAnxiete(r.anxiete)}","${formatOuiNon(r.auto_mal)}","${formatCrisesPanique(r.crises_panique)}","${formatRelationAmis(r.relation_amis)}","${formatComparaison(r.comparaison)}","${formatInquietudeAvenir(r.inquietude_avenir)}","${formatHarcelement(r.harcelement)}","${formatTempsReseaux(r.temps_reseaux)}","${formatImageCorps(r.image_corps)}","${formatBienEtre(r.bien_etre_mental || r.bien_etre)}",${r.stress || ''},${r.sommeil || ''},"${formatConsultation(r.consultation_psy)}","${sources}","${journee}","${situations}","${commentaires}"\n`;
-    });
-
-    downloadFile(csv, 'sondage_resultats.csv', 'text/csv');
-}
+    
+    <script>
+        let allResponses = [];
+        
+        // Charger les données au démarrage
+        loadData();
+        
+        // Recherche en temps réel
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            filterResponses(e.target.value);
+        });
+        
+        async function loadData() {
+            try {
+                // Charger les statistiques
+                const statsRes = await fetch('/api/stats');
+                const stats = await statsRes.json();
+                
+                document.getElementById('totalResponses').textContent = stats.total;
+                document.getElementById('avgAge').textContent = stats.age_moyen;
+                
+                // Charger les réponses
+                const responsesRes = await fetch('/api/responses');
+                const data = await responsesRes.json();
+                allResponses = data.responses || [];
+                
+                displayResponses(allResponses);
+                
+            } catch (error) {
+                console.error('Erreur:', error);
+                document.getElementById('responsesContainer').innerHTML = 
+                    '<div class="empty"><div class="empty-icon">⚠️</div><p>Erreur de chargement des données</p></div>';
+            }
+        }
+        
+        function displayResponses(responses) {
+            const container = document.getElementById('responsesContainer');
+            
+            if (responses.length === 0) {
+                container.innerHTML = 
+                    '<div class="empty"><div class="empty-icon">📭</div><p>Aucune réponse pour le moment</p></div>';
+                return;
+            }
+            
+            container.innerHTML = responses.map(r => `
+                <div class="response-card">
+                    <div class="response-header">
+                        <span class="response-id">Réponse #${r.id}</span>
+                        <span class="response-date">${formatDate(r.timestamp)}</span>
+                    </div>
+                    <div class="response-grid">
+                        <div class="response-item">
+                            <div class="response-label">Âge</div>
+                            <div class="response-value">${r.age} ans</div>
+                        </div>
+                        <div class="response-item">
+                            <div class="response-label">Genre</div>
+                            <div class="response-value">${formatGenre(r.genre)}</div>
+                        </div>
+                        <div class="response-item">
+                            <div class="response-label">Consultation psy</div>
+                            <div class="response-value">${formatConsultation(r.consultation_psy)}</div>
+                        </div>
+                    </div>
+                    ${r.sources_stress && r.sources_stress.length > 0 ? `
+                        <div class="response-item" style="margin-top: 12px;">
+                            <div class="response-label">Sources de stress</div>
+                            <div class="response-value">
+                                ${r.sources_stress.map(s => `<span class="badge badge-info">${formatSourceStress(s)}</span>`).join('')}
+                            </div>
+                        </div>
+                    ` : ''}
+                    ${r.commentaires ? `
+                        <div class="response-item" style="margin-top: 12px;">
+                            <div class="response-label">Commentaires</div>
+                            <div class="response-value">${r.commentaires}</div>
+                        </div>
+                    ` : ''}
+                </div>
+            `).join('');
+        }
+        
+        function filterResponses(query) {
+            const filtered = allResponses.filter(r => {
+                const searchStr = JSON.stringify(r).toLowerCase();
+                return searchStr.includes(query.toLowerCase());
+            });
+            displayResponses(filtered);
+        }
+        
+        function formatDate(timestamp) {
+            if (!timestamp) return 'Date inconnue';
+            const date = new Date(timestamp);
+            return date.toLocaleString('fr-FR');
+        }
+        
+        function formatGenre(genre) {
+            const genres = {
+                'homme': 'Homme',
+                'femme': 'Femme',
+                'non-binaire': 'Non-binaire',
+                'autre': 'Autre',
+                'prefere_ne_pas_repondre': 'Préfère ne pas répondre'
+            };
+            return genres[genre] || genre;
+        }
+        
+        function formatConsultation(value) {
+            const values = {
+                'oui': 'Oui',
+                'non': 'Non',
+                'envisage': 'Non, mais j\'y pense'
+            };
+            return values[value] || value || 'Non renseigné';
+        }
+        
+        function refreshData() {
+            document.getElementById('responsesContainer').innerHTML = 
+                '<div class="loading">Actualisation...</div>';
+            loadData();
+        }
+        
+        function exportCSV() {
+            if (allResponses.length === 0) {
+                alert('Aucune donnée à exporter');
+                return;
+            }
+            
+            // En-têtes
+            let csv = 'ID,Date,Âge,Genre,Bien-être mental,Stress,Sommeil,Consultation psy,Sources de stress,Commentaires\n';
+            
+            // Données
+            allResponses.forEach(r => {
+                const sources = Array.isArray(r.sources_stress) ? r.sources_stress.join('; ') : '';
+                const commentaires = (r.commentaires || '').replace(/"/g, '""').replace(/\n/g, ' ');
+                
+                csv += `${r.id},"${formatDate(r.timestamp)}",${r.age},"${formatGenre(r.genre)}","${formatBienEtre(r.bien_etre_mental)}",${r.stress},${r.sommeil},"${formatConsultation(r.consultation_psy)}","${sources}","${commentaires}"\n`;
+            });
+            
+            // Télécharger
+            downloadFile(csv, 'sondage_resultats.csv', 'text/csv');
+        }
+        
+        function exportJSON() {
+            if (allResponses.length === 0) {
+                alert('Aucune donnée à exporter');
+                return;
+            }
+            
+            const json = JSON.stringify({ responses: allResponses }, null, 2);
+            downloadFile(json, 'sondage_resultats.json', 'application/json');
+        }
+        
+        function downloadFile(content, filename, type) {
+            const blob = new Blob([content], { type });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+    </script>
+</body>
+</html>
