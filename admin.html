@@ -345,18 +345,6 @@
                             <div class="response-value">${formatGenre(r.genre)}</div>
                         </div>
                         <div class="response-item">
-                            <div class="response-label">Bien-être mental</div>
-                            <div class="response-value">${formatBienEtre(r.bien_etre_mental)}</div>
-                        </div>
-                        <div class="response-item">
-                            <div class="response-label">Niveau de stress</div>
-                            <div class="response-value">${r.stress}/10</div>
-                        </div>
-                        <div class="response-item">
-                            <div class="response-label">Sommeil</div>
-                            <div class="response-value">${r.sommeil}h par nuit</div>
-                        </div>
-                        <div class="response-item">
                             <div class="response-label">Consultation psy</div>
                             <div class="response-value">${formatConsultation(r.consultation_psy)}</div>
                         </div>
@@ -404,17 +392,6 @@
             return genres[genre] || genre;
         }
         
-        function formatBienEtre(value) {
-            const values = {
-                'tres_mauvais': 'Très mauvais',
-                'mauvais': 'Mauvais',
-                'moyen': 'Moyen',
-                'bon': 'Bon',
-                'tres_bon': 'Très bon'
-            };
-            return values[value] || value;
-        }
-        
         function formatConsultation(value) {
             const values = {
                 'oui': 'Oui',
@@ -422,19 +399,6 @@
                 'envisage': 'Non, mais j\'y pense'
             };
             return values[value] || value || 'Non renseigné';
-        }
-        
-        function formatSourceStress(value) {
-            const sources = {
-                'etudes': 'Études',
-                'famille': 'Famille',
-                'amis': 'Amis',
-                'reseaux_sociaux': 'Réseaux sociaux',
-                'avenir': 'Avenir',
-                'sante': 'Santé',
-                'autre': 'Autre'
-            };
-            return sources[value] || value;
         }
         
         function refreshData() {
