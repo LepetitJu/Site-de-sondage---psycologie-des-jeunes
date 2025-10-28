@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Sondage — psychologie des jeunes</title>
+<style>
+/* Style simple inspiré Google Forms */
+:root{--bg:#f7f9fb;--card:#fff;--accent:#1a73e8}
+body{font-family:Inter,Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:var(--bg);margin:0;padding:40px;}
+.container{max-width:820px;margin:0 auto}
+.card{background:var(--card);padding:28px;border-radius:12px;box-shadow:0 6px 24px rgba(16,24,40,.08)}
+h1{margin:0 0 6px;font-size:22px}
+p.lead{color:#555;margin-top:6px}
+.question{margin-top:22px}
+label{display:block;margin-bottom:8px;font-weight:600}
+input[type=text],textarea,select{width:100%;padding:10px;border:1px solid #e3e7ee;border-radius:8px;font-size:14px}
+.row{display:flex;gap:12px}
+.small{flex:1}
+.actions{margin-top:18px;display:flex;gap:8px}
+button{background:var(--accent);color:#fff;border:none;padding:10px 14px;border-radius:8px;cursor:pointer}
+button.secondary{background:#e6eefc;color:#1a73e8}
+.notice{font-size:13px;color:#666;margin-top:10px}
+.success{color:green}
+</style>
+</head>
+<body>
+<div class="container">
+<div class="card">
+<h1>Sondage — Psychologie des jeunes</h1>
+<p class="lead">Merci de répondre honnêtement. Le sondage est anonyme.</p>
+
+
+<form id="survey">
+<div class="question">
+<label>Âge</label>
+<input name="age" type="text" placeholder="ex : 16" required />
+</div>
+
+
+<div class="question">
+<label>Genre</label>
+<select name="gender">
+<option value="">-- Choisir --</option>
+<option value="Femme">Femme</option>
+<option value="Homme">Homme</option>
+<option value="Non binaire">Non binaire</option>
+<option value="Préfère pas dire">Préfère pas dire</option>
+</select>
+</div>
+
+
+<div class="question">
+<label>Sur une échelle de 1 à 10, comment évalues-tu ton humeur générale ces 7 derniers jours ?</label>
+<input name="mood" type="text" placeholder="1 (très mal) — 10 (très bien)" />
+</div>
+
+
+<div class="question">
+<label>As-tu accès à un adulte de confiance pour parler de tes problèmes ?</label>
+<select name="support">
+<option value="">-- Choisir --</option>
+<option value="Oui">Oui</option>
+<option value="Non">Non</option>
+<option value="Parfois">Parfois</option>
+</select>
+</div>
+
+
+<div class="question">
+<label>Comment te sens-tu le plus souvent ? (court message)</label>
+<textarea name="free" rows="4" placeholder="Ex : stressé, motivé, tranquille..."></textarea>
+</html>
